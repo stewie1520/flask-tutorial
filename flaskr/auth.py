@@ -51,7 +51,7 @@ def register():
         elif db.execute(
             'SELECT id FROM user WHERE username=?', (username,)
         ).fetchone() is not None:
-            error = 'User {} is already registed' % username
+            error = f'User {username} is already registed'
 
         if error is None:
             hased_password = generate_password_hash(password)
@@ -83,8 +83,7 @@ def login():
 
         if user is None:
             error = 'Username or password is incorrect'
-
-        if not check_password_hash(user.password, password):
+        elif not check_password_hash(user['password'], password):
             error = 'Username or password is incorrect'
 
         if error is None:
